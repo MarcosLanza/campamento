@@ -1,459 +1,358 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guía Registro — CampaZonal · Generación 3D</title>
-
-  <!-- Tipografía -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
-    :root{
-      --accent:#FF7307;
-      --electric:#013DFF;
-      --lime:#B8FD00;
-      --panel:#1E1617;
-      --cream:#F7F4E9;
-      --muted:#9ea3a8;
-      --bg:#0f0f10;
-      --card-bg: rgba(255,255,255,0.02);
-      --glass: rgba(255,255,255,0.03);
-      --max-width:1200px;
-      --radius:14px;
-      --gap:18px;
-      --text:#e9e9e9;
-      --shadow: 0 8px 30px rgba(0,0,0,0.6);
+    :root {
+      --primary: #FF7307;
+      --secondary: #013DFF;
+      --accent: #B8FD00;
+      --dark: #1E1617;
+      --light: #F7F4E9;
+      --gray: #9EA3A8;
+      --bg: #0F0F10;
+      --card: rgba(255,255,255,0.02);
+      --border: rgba(255,255,255,0.04);
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background: linear-gradient(180deg,var(--bg) 0%, #131213 100%);
-      color:var(--text);
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:flex;
-      justify-content:center;
-      padding:20px;
-      line-height:1.45;
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--light); scroll-behavior: smooth; }
+
+    .wrapper {
+      max-width: 1200px;
+      margin: 32px auto;
+      background: linear-gradient(to bottom, rgba(30,22,23,0.9), rgba(15,15,16,1));
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      border: 1px solid var(--border);
     }
 
-    /* Layout container */
-    .shell{
-      width:100%;
-      max-width:var(--max-width);
-      border-radius:var(--radius);
-      overflow:hidden;
-      background: linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.004));
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,0.03);
-      display:flex;
-      flex-direction:column;
-      min-height:80vh;
-      max-height:calc(100vh - 40px);
+    header {
+      display: flex;
+      align-items: center;
+      padding: 24px;
+      background: rgba(0,0,0,0.2);
+      border-bottom: 1px solid var(--border);
     }
 
-    /* HEADER */
-    header.topbar{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      padding:14px 18px;
-      background: linear-gradient(90deg, rgba(0,0,0,0.08), rgba(0,0,0,0.03));
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-    .brand{ display:flex; gap:14px; align-items:center; }
-    .logo{
-      width:64px;height:64px;border-radius:12px;
-      display:flex;align-items:center;justify-content:center;
-      background: linear-gradient(135deg,var(--accent), var(--electric));
-      color:white;font-weight:900;font-size:20px;
-      flex-shrink:0;
-    }
-    .brand-title{ line-height:1; }
-    .brand-title h1{ margin:0; font-size:18px; color:var(--cream); letter-spacing:0.6px; text-transform:uppercase;}
-    .brand-title p{ margin:2px 0 0 0; color:var(--muted); font-size:13px }
-
-    .top-actions{ margin-left:auto; display:flex; gap:8px; align-items:center }
-    .btn{
-      background:var(--accent);
-      color:#0b0b0b;
-      padding:8px 12px;
-      border-radius:10px;
-      font-weight:700;
-      border:0;
-      cursor:pointer;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-    }
-    .btn.ghost{
-      background:transparent;
-      color:var(--text);
-      border:1px solid rgba(255,255,255,0.04);
-      padding:8px 10px;
-    }
-    .icon-btn{
-      background:transparent;border:0;color:var(--text);cursor:pointer;padding:8px;border-radius:10px;
+    .logo-box {
+      display: flex;
+      gap: 16px;
+      align-items: center;
     }
 
-    /* MAIN: left content + sidebar */
-    .main{
-      display:grid;
-      grid-template-columns: 1fr 360px;
-      gap:var(--gap);
-      padding:18px;
-      overflow:hidden;
-      flex:1;
+    .logo {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 28px;
+      color: white;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
 
-    /* Scrollable content area */
-    .content{
-      overflow:auto;
-      padding-right:8px;
-      scroll-behavior:smooth;
-    }
-    .content::-webkit-scrollbar{ width:10px }
-    .content::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.05); border-radius:10px }
-
-    /* Cards */
-    .card{
-      background: var(--card-bg);
-      border-radius:12px;
-      padding:16px;
-      border:1px solid rgba(255,255,255,0.02);
-      margin-bottom:14px;
-    }
-    .card h3{ margin:0 0 8px 0; color:var(--accent); text-transform:uppercase; font-size:13px; letter-spacing:0.7px }
-    .muted{ color:var(--muted); font-size:13px }
-
-    /* Checklist visuals */
-    .check-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:12px }
-    .mini-card{ background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006)); padding:12px; border-radius:10px; border: 1px solid rgba(255,255,255,0.018); }
-
-    /* Sidebar */
-    aside.sidebar{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      position:relative;
-      overflow:auto;
-      padding-right:6px;
-    }
-    .palette{ display:flex; gap:8px; margin-top:8px }
-    .swatch{
-      flex:1; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; color:#111;
-    }
-    .swatch.dark{ color:var(--cream) }
-
-    .team-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:10px }
-    .team-item{ display:flex; gap:10px; align-items:center; padding:10px; border-radius:10px; background: rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.02); font-weight:700; }
-
-    /* Footer */
-    footer.foot{
-      padding:12px 18px;
-      border-top:1px solid rgba(255,255,255,0.03);
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
-    }
-    .small{ font-size:13px; color:var(--muted) }
-
-    /* Responsive adjustments */
-    @media (max-width:1000px){
-      .main{ grid-template-columns: 1fr; padding:12px; }
-      aside.sidebar{ order:2; max-height:38vh; overflow:auto; }
-      .team-grid{ grid-template-columns:repeat(3,1fr) }
-    }
-    @media (max-width:520px){
-      .logo{ width:48px;height:48px;font-size:16px }
-      header.topbar{ padding:12px }
-      .top-actions .btn{ padding:6px 10px; font-size:13px }
-      .team-grid{ grid-template-columns:repeat(2,1fr) }
+    .header-text h1 {
+      margin: 0;
+      font-size: 22px;
+      color: var(--light);
+      letter-spacing: 0.8px;
     }
 
-    /* Print */
+    .header-text p {
+      margin: 4px 0 0;
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    nav.actions {
+      margin-left: auto;
+      display: flex;
+      gap: 12px;
+    }
+
+    button.action {
+      background: var(--primary);
+      color: #111;
+      border: 0;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button.outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--light);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      padding: 24px;
+    }
+
+    section.content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 22px;
+      border: 1px solid var(--border);
+    }
+
+    .card h3 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    .card ul, .card ol {
+      padding-left: 20px;
+      color: var(--gray);
+    }
+
+    .card li {
+      margin-bottom: 10px;
+    }
+
+    .card .tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.04);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    aside.sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .palette {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .swatch {
+      flex: 1;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .swatch.dark {
+      color: var(--light);
+    }
+
+    .teams-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .team-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+    }
+
+    footer {
+      padding: 18px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--gray);
+    }
+
+    @media (max-width: 960px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      aside.sidebar {
+        order: 2;
+      }
+    }
+
     @media print {
-      body{ background:white; color:#111; padding:0 }
-      .shell{ box-shadow:none; border:none; max-width:100%; margin:0; border-radius:0; min-height:auto; max-height:auto }
-      header.topbar, .top-actions, .icon-btn, .btn.ghost{ display:none !important }
-      .content{ overflow:visible; }
+      .wrapper { box-shadow: none; border: none; }
+      nav.actions, footer, button { display: none !important; }
     }
-
-    /* small helpers */
-    .tag{ display:inline-block; padding:6px 10px; border-radius:999px; background:var(--glass); color:var(--muted); font-size:13px; }
-    details summary{ list-style:none; cursor:pointer; padding:10px 12px; border-radius:8px; background:rgba(255,255,255,0.006); border:1px solid rgba(255,255,255,0.02); display:flex; justify-content:space-between; align-items:center; }
-    details[open] summary{ background:rgba(255,255,255,0.01) }
   </style>
 </head>
 <body>
-  <div class="shell" role="application" aria-label="Guía del Equipo de Registro - CampaZonal">
-    <!-- HEADER -->
-    <header class="topbar" role="banner">
-      <div class="brand" aria-hidden="false">
-        <div class="logo" aria-hidden="true" title="logo Generación 3D">3D</div>
-        <div class="brand-title">
-          <h1 id="main-title">Guía — Equipo de Registro</h1>
-          <p class="muted">Generación 3D · CampaZonal — "Marcados por Fe"</p>
+  <div class="wrapper">
+    <header>
+      <div class="logo-box">
+        <div class="logo">3D</div>
+        <div class="header-text">
+          <h1>Guía del Equipo de Registro</h1>
+          <p>Generación 3D · CampaZonal 2026 — "Marcados por Fe"</p>
         </div>
       </div>
 
-      <div class="top-actions" role="toolbar" aria-label="Acciones">
-        <button class="btn" id="expandAll" title="Expandir todo">↕️ Expandir</button>
-        <button class="btn ghost" id="collapseAll" title="Contraer todo">🔽 Contraer</button>
-        <button class="btn" id="printBtn" title="Imprimir / Guardar como PDF">📄 Imprimir</button>
-        <button class="btn ghost" id="downloadBtn" title="Descargar HTML">⬇️ HTML</button>
-        <button class="icon-btn" id="toggleSidebar" title="Mostrar / Ocultar panel">☰</button>
-      </div>
+      <nav class="actions">
+        <button class="action outline" onclick="window.print()">🖨️ Imprimir</button>
+        <button class="action" onclick="exportPDF()">📄 Exportar PDF</button>
+      </nav>
     </header>
 
-    <!-- MAIN -->
-    <div class="main" role="main">
-      <!-- LEFT: scrollable content -->
-      <section class="content" aria-labelledby="prep-title">
-        <article class="card">
-          <h3 id="prep-title">Antes del campa — Preparación</h3>
-          <p class="muted">Tareas clave para que la recepción funcione sin fricción. Mantén esta área scrolleable mientras el header y footer quedan visibles.</p>
+    <main>
+      <section class="content">
+        <div class="card">
+          <h3>📋 Antes del Campa — Checklist</h3>
+          <ul>
+            <li>Confirmar inscritos con Finanzas (pagos y becas).</li>
+            <li>Crear y probar Google Form + Google Sheet (nombres, DNI, edad, iglesia, contacto, emergencias, alergias, dieta, modo de alojamiento, pago).</li>
+            <li>Imprimir/descargar autorizaciones para menores.</li>
+            <li>Verificar la compra de materiales: camisetas, pulseras Tyvek, bandanas, sobres, etiquetas, stickers.</li>
+            <li>Preparar espacio de recepción: mesas, impresora, escáner o celular, marcador, cajas por equipo.</li>
+            <li>Crear plantilla de turnos y asignar personal por franja horaria.</li>
+            <li>Hacer reunión de capacitación con el script de bienvenida y protocolos.</li>
+          </ul>
+        </div>
 
-          <details open>
-            <summary><span>Checklist principal</span> <span class="tag">7 ítems</span></summary>
-            <div class="mini-card">
-              <div class="check-grid" id="checkGrid">
-                <div><label><input type="checkbox"> Confirmar lista con Finanzas (pagos)</label></div>
-                <div><label><input type="checkbox"> Google Form + Google Sheet vinculada</label></div>
-                <div><label><input type="checkbox"> Autorizaciones de menores (impresas/online)</label></div>
-                <div><label><input type="checkbox"> Verificar camisetas, pulseras, bandanas</label></div>
-                <div><label><input type="checkbox"> Preparar mesas, impresora, escáner</label></div>
-                <div><label><input type="checkbox"> Crear plantilla de turnos</label></div>
-                <div><label><input type="checkbox"> Reunión de capacitación con script</label></div>
-              </div>
-            </div>
-          </details>
+        <div class="card">
+          <h3>📦 Paquete del Participante</h3>
+          <ul>
+            <li>Camiseta (con talla).</li>
+            <li>Pulsera o tira frontal según edad.</li>
+            <li>Cronograma impreso + mapa del campa.</li>
+            <li>Reglamento / normas y datos de contacto de emergencia.</li>
+            <li>Etiqueta con nombre (opcional).</li>
+            <li>Comprobante pequeño o cinta que indique “pagó / pendiente”.</li>
+            <li>Bolsita con kit higiene o snack (opcional).</li>
+          </ul>
+        </div>
 
-          <details>
-            <summary><span>Paquete del participante</span> <span class="tag">Contenido mínimo</span></summary>
-            <div class="mini-card">
-              <ul class="muted" style="margin:0; padding-left:18px">
-                <li>Camiseta (talla).</li>
-                <li>Pulsera o tira frontal según edad.</li>
-                <li>Cronograma impreso + mapa del campa.</li>
-                <li>Reglamento y contactos de emergencia.</li>
-                <li>Etiqueta con nombre y comprobante “pagó/pendiente”.</li>
-                <li>Kit higiene o snack (opcional).</li>
-              </ul>
-              <p style="margin-top:10px" class="muted"><strong>Montaje:</strong> Etiquetar por nombre y equipo. Persona designada para control de calidad antes de sellar.</p>
-            </div>
-          </details>
+        <div class="card">
+          <h3>🧑‍🤝‍🧑 Identificación por Edad</h3>
+          <ul>
+            <li><strong>13–17 años:</strong> Pulsera Tyvek de color visible.</li>
+            <li><strong>18–30 años:</strong> Bandana/tira frontal (más higiénico).</li>
+          </ul>
+        </div>
 
-          <details>
-            <summary><span>Identificación por edad</span> <span class="tag">Pulseras / tiras</span></summary>
-            <div class="mini-card">
-              <ul class="muted" style="margin:0;padding-left:18px">
-                <li><b>13–17:</b> Pulsera Tyvek visible.</li>
-                <li><b>18–30:</b> Bandana/tira frontal (más higiénico).</li>
-              </ul>
-              <p style="margin-top:8px" class="muted"><strong>Consejo:</strong> evitar adhesivos en piel por posibles alergias.</p>
-            </div>
-          </details>
-        </article>
+        <div class="card">
+          <h3>🛬 Flujo durante la llegada</h3>
+          <ol>
+            <li><strong>Mesa 1 — Control de lista:</strong> Saludo, pedir nombre y DNI, buscar en la Google Sheet y marcar hora de llegada.</li>
+            <li><strong>Mesa 2 — Pago y autorización:</strong> Validar pago o comprobante y autorizaciones de menores.</li>
+            <li><strong>Mesa 3 — Entrega de paquete:</strong> Entregar bolsa con camiseta, pulsera/tira y cronograma; colocar pulsera supervisado.</li>
+            <li><strong>Punto de información:</strong> Explicar dónde dejar equipaje, mapa y ubicación de enfermería.</li>
+            <li><strong>Registro:</strong> Anotar hora e incidencias en la hoja maestra.</li>
+          </ol>
+        </div>
 
-        <article class="card">
-          <h3>Durante la llegada — Flujo en recepción</h3>
+        <div class="card">
+          <h3>📜 Protocolo para Menores</h3>
+          <ul>
+            <li>Verificar autorización firmada; llamar al tutor si hay dudas.</li>
+            <li>Llevar lista de menores y enviar copia a Pastoral y Salud.</li>
+            <li>No permitir salida sin autorización comprobada.</li>
+          </ul>
+        </div>
 
-          <details open>
-            <summary><span>Flujo recomendado (3 mesas)</span> <span class="tag">Rapidez</span></summary>
-            <div class="mini-card">
-              <ol class="muted" style="margin:0;padding-left:18px">
-                <li><b>Mesa 1 — Control:</b> Saludo, DNI, buscar en Sheet, marcar hora.</li>
-                <li><b>Mesa 2 — Pago y autorización:</b> Validar comprobantes / autorizaciones.</li>
-                <li><b>Mesa 3 — Entrega:</b> Paquete y colocación de pulsera/tira supervisada.</li>
-                <li><b>Punto info:</b> mapa, ubicación enfermería, dejar equipaje.</li>
-                <li><b>Registro:</b> registrar incidencias y hora.</li>
-              </ol>
-            </div>
-          </details>
-
-          <details>
-            <summary><span>Script breve</span> <span class="tag">Sencillo</span></summary>
-            <div class="mini-card muted">
-              <em>"Hola, bienvenido al CampaZonal. ¿Cuál es tu nombre completo? ¿Tenés DNI? Veo que [está pagado / falta pago]. Acá está tu paquete: camiseta (talla X) y tu pulsera. ¿Tenés alergias o medicamentos?"</em>
-            </div>
-          </details>
-        </article>
-
-        <article class="card">
-          <h3>Protocolo para menores</h3>
-
-          <details open>
-            <summary><span>Medidas obligatorias</span> <span class="tag">Seguridad</span></summary>
-            <div class="mini-card">
-              <ul class="muted" style="margin:0;padding-left:18px">
-                <li>Verificar autorización firmada; llamar al tutor si duda.</li>
-                <li>Llevar lista de menores y enviar copia a Pastoral y Salud.</li>
-                <li>No permitir salida sin autorización comprobada.</li>
+        <div class="card">
+          <h3>🕒 Incidencias</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        
+            <div>
+              <h4>Incidencias comunes</h4>
+              <ul>
+                <li>Pago no registrado: aceptar comprobante digital, notificar a Finanzas.</li>
+                <li>Falta autorización: llamar al tutor; no permitir ingreso si no responde.</li>
+                <li>Talla errónea: intercambio inmediato o coordinar con Logística.</li>
+                <li>Alergia: notificar a Salud y registrar prioridad.</li>
               </ul>
             </div>
-          </details>
-        </article>
-
-        <article class="card">
-          <h3>Turnos, comunicación e incidencias</h3>
-
-          <details>
-            <summary><span>Turnos sugeridos</span> <span class="tag">Cobertura</span></summary>
-            <div class="mini-card muted">
-              <div style="display:flex; gap:12px; flex-wrap:wrap">
-                <div style="min-width:160px"><b>Mañana</b><div>07:00–12:00</div></div>
-                <div style="min-width:160px"><b>Tarde</b><div>12:00–18:00</div></div>
-                <div style="min-width:160px"><b>Noche</b><div>18:00–23:00</div></div>
-                <div style="min-width:160px"><b>Guardia</b><div>23:00–07:00 (1 on-call)</div></div>
-              </div>
-              <p style="margin-top:8px" class="muted">Reunión previa 30 min antes de abrir. Grupo WhatsApp para incidencias. Reporte cada 2 horas a Finanzas y Cocina.</p>
-            </div>
-          </details>
-
-          <details>
-            <summary><span>Incidencias comunes</span> <span class="tag">Resolución</span></summary>
-            <div class="mini-card muted">
-              <ul style="margin:0;padding-left:18px">
-                <li><b>Pago no registrado:</b> aceptar comprobante y marcar pendiente si aplica.</li>
-                <li><b>Falta autorización:</b> llamar al tutor; si no responde, no permitir ingreso.</li>
-                <li><b>Talla errónea:</b> intercambio inmediato o anotar para reemplazo.</li>
-                <li><b>Alergia:</b> notificar a Salud y registrar prioridad.</li>
-              </ul>
-            </div>
-          </details>
-        </article>
+          </div>
+        </div>
       </section>
 
-      <!-- RIGHT: sidebar (scrollable) -->
-      <aside class="sidebar" id="sidebar" aria-label="Panel lateral">
-        <div class="card" aria-labelledby="visual-title">
-          <h3 id="visual-title">Guía visual · Paleta</h3>
-          <p class="muted">Colores base de la marca y colores prácticos para equipos.</p>
-
+      <aside class="sidebar">
+        <div class="card">
+          <h3>🎨 Guía Visual</h3>
     
 
-          <h3 style="margin-top:12px">Equipos (14 colores)</h3>
-          <div class="team-grid" role="list" aria-label="Colores de equipos">
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#e53935;border-radius:4px"></div> Rojo</div>
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#1976d2;border-radius:4px"></div> Azul</div>
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#43a047;border-radius:4px"></div> Verde</div>
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#fdd835;border-radius:4px"></div> Amarillo</div>
-
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#fb8c00;border-radius:4px"></div> Naranja</div>
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#8e24aa;border-radius:4px"></div> Morado</div>
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#ff5252;border-radius:4px"></div> Rosa</div>
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#00bcd4;border-radius:4px"></div> Celeste</div>
-
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#ffffff;border-radius:4px"></div> Blanco</div>
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#9e9e9e;border-radius:4px"></div> Gris</div>
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#212121;border-radius:4px"></div> Negro</div>
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#c2185b;border-radius:4px"></div> Bordó</div>
-
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#5d4037;border-radius:4px"></div> Café</div>
-            <div class="team-item" role="listitem"><div style="width:18px;height:18px;background:#6a1b9a;border-radius:4px"></div> Lila</div>
+          <h4 style="margin-top:20px">Equipos (14 colores fáciles)</h4>
+          <div class="teams-grid">
+            <div class="team-chip"><div class="dot" style="background:#e53935"></div> Rojo</div>
+            <div class="team-chip"><div class="dot" style="background:#1976d2"></div> Azul</div>
+            <div class="team-chip"><div class="dot" style="background:#43a047"></div> Verde</div>
+            <div class="team-chip"><div class="dot" style="background:#fdd835"></div> Amarillo</div>
+            <div class="team-chip"><div class="dot" style="background:#fb8c00"></div> Naranja</div>
+            <div class="team-chip"><div class="dot" style="background:#8e24aa"></div> Morado</div>
+            <div class="team-chip"><div class="dot" style="background:#ff5252"></div> Coral</div>
+            <div class="team-chip"><div class="dot" style="background:#00bcd4"></div> Celeste</div>
+            <div class="team-chip"><div class="dot" style="background:#ffffff;border:1px solid #aaa"></div> Blanco</div>
+            <div class="team-chip"><div class="dot" style="background:#9e9e9e"></div> Gris</div>
+            <div class="team-chip"><div class="dot" style="background:#212121"></div> Negro</div>
+            <div class="team-chip"><div class="dot" style="background:#c2185b"></div> Bordó</div>
+            <div class="team-chip"><div class="dot" style="background:#5d4037"></div> Café</div>
+            <div class="team-chip"><div class="dot" style="background:#6a1b9a"></div> Lila</div>
           </div>
-
-          <p class="muted" style="margin-top:12px">Consejo: pañuelos o pulseras Tyvek en estos colores (fáciles de conseguir en mercerías o ferreterías grandes).</p>
-          <div style="height:8px"></div>
-          <button class="btn" id="downloadAssets">Descargar hoja de colores</button>
-        </div>
-
-        <div class="card" aria-labelledby="deliverables">
-          <h3 id="deliverables">Entregables listos</h3>
-          <ul class="muted" style="margin:6px 0 0 18px; padding:0;">
-            <li>Google Form + Google Sheet</li>
-            <li>PDF imprimible de esta guía</li>
-            <li>Plantilla de autorización para menores (PDF)</li>
-            <li>Hoja Excel de control de pagos</li>
-          </ul>
-          <div style="height:10px"></div>
-          <button class="btn ghost" id="requestDeliverables">Solicitar entregables</button>
         </div>
       </aside>
-    </div>
+    </main>
 
-    <!-- FOOTER -->
-    <footer class="foot" role="contentinfo">
-      <div class="small">Guía · Equipo de Registro — Generación 3D · CampaZonal</div>
-      <div class="small">Versión pro · Responsive · Lista para imprimir</div>
+    <footer>
+      <div>Guía del Equipo de Registro · CampaZonal 2026</div>
+      <div>Generación 3D — "Marcados por Fe"</div>
     </footer>
   </div>
 
   <script>
-    // Expand / Collapse all details
-    document.getElementById('expandAll').addEventListener('click', () => {
-      document.querySelectorAll('details').forEach(d => d.open = true);
-    });
-    document.getElementById('collapseAll').addEventListener('click', () => {
-      document.querySelectorAll('details').forEach(d => d.open = false);
-    });
+    function exportPDF() {
+      const element = document.querySelector('.wrapper');
+      const opt = {
+        margin: 10,
+        filename: 'guia-registro-campazonal-pro.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+      };
 
-    // Print
-    document.getElementById('printBtn').addEventListener('click', () => window.print());
-
-    // Download HTML
-    document.getElementById('downloadBtn').addEventListener('click', function(){
-      const doc = '<!doctype html>\\n' + document.documentElement.outerHTML;
-      const blob = new Blob([doc], {type: 'text/html'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'guia_registro_campazonal_pro_scroll.html';
-      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    });
-
-    // Toggle sidebar (mobile)
-    const sidebar = document.getElementById('sidebar');
-    let sidebarVisible = true;
-    document.getElementById('toggleSidebar').addEventListener('click', () => {
-      sidebarVisible = !sidebarVisible;
-      sidebar.style.display = sidebarVisible ? 'flex' : 'none';
-    });
-
-    // Request deliverables (placeholder)
-    document.getElementById('requestDeliverables').addEventListener('click', () => {
-      alert('Decime qué entregables querés: PDF, Form, Excel, Autorizaciones o Todo. Yo los genero ahora.');
-    });
-
-    // Download color sheet (generates a simple CSV of colors)
-    document.getElementById('downloadAssets').addEventListener('click', () => {
-      const colors = [
-        ['Rojo','#e53935'],['Azul','#1976d2'],['Verde','#43a047'],['Amarillo','#fdd835'],
-        ['Naranja','#fb8c00'],['Morado','#8e24aa'],['Rosa','#ff5252'],['Celeste','#00bcd4'],
-        ['Marrón','#795548'],['Gris','#9e9e9e'],['Negro','#212121'],['Bordó','#c2185b'],
-        ['Café','#5d4037'],['Lila','#6a1b9a']
-      ];
-      const csv = 'Equipo,Hex\\n' + colors.map(c => c.join(',')).join('\\n');
-      const blob = new Blob([csv], {type: 'text/csv'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'colores_equipos.csv';
-      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    });
-
-    // Accessibility: toggle details by Enter/Space
-    document.querySelectorAll('summary').forEach(s => {
-      s.tabIndex = 0;
-      s.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          s.parentElement.open = !s.parentElement.open;
-        }
-      });
-    });
-
-    // Keep sidebar visible on wide screens
-    function handleResize(){
-      if(window.innerWidth > 1000) {
-        sidebar.style.display = 'flex';
-        sidebarVisible = true;
-      }
+      html2pdf().set(opt).from(element).save();
     }
-    window.addEventListener('resize', handleResize);
-    handleResize();
   </script>
 </body>
 </html>
